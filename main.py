@@ -1,0 +1,44 @@
+from search_algorithms.bfs import bfs_search
+from search_algorithms.dfs import dfs_search
+from search_algorithms.astar import astar_search
+from results.comparison import print_comparison_table, build_conclusion
+
+
+def prompt_user():
+    base_url = input("Ingrese la URL inicial: ").strip()
+    keyword = input("Ingrese la palabra clave: ").strip()
+    if not base_url or not keyword:
+        raise ValueError("La URL inicial y la palabra clave son obligatorias.")
+    return base_url, keyword
+
+
+def main():
+    try:
+        base_url, keyword = prompt_user()
+
+        print("\nEjecutando búsqueda BFS...")
+        bfs_result = bfs_search(base_url, keyword, max_nodes=30, max_depth=3)
+
+        print("\nEjecutando búsqueda DFS...")
+        dfs_result = dfs_search(base_url, keyword, max_nodes=30, max_depth=3)
+
+        print("\nEjecutando búsqueda A*...")
+        astar_result = astar_search(base_url, keyword, max_nodes=30, max_depth=3)
+
+        results = [
+            ("BFS", bfs_result),
+            ("DFS", dfs_result),
+            ("A*", astar_result),
+        ]
+
+        print_comparison_table(results)
+        conclusion = build_conclusion(results)
+        print("\nConclusión:")
+        print(conclusion)
+
+    except Exception as exc:
+        print(f"Error: {exc}")
+
+
+if __name__ == "__main__":
+    main()
