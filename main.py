@@ -1,7 +1,7 @@
-from search_algorithms.bfs import bfs_search
-from search_algorithms.dfs import dfs_search
-from search_algorithms.astar import astar_search
-from results.comparison import print_comparison_table, build_conclusion
+from algoritmos_busqueda.bfs import bfs_search
+from algoritmos_busqueda.dfs import dfs_search
+from algoritmos_busqueda.astar import astar_search
+from resultados.comparison import print_comparison_table, build_conclusion
 
 
 def prompt_user():

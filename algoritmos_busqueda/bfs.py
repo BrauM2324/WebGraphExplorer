@@ -1,14 +1,14 @@
 from collections import deque
-from crawler.web_scraper import fetch_page
-from utils.metrics import SearchResult
-from utils.time_tracker import TimeTracker
+from rastreador.web_scraper import fetch_page
+from utilidades.metrics import SearchResult
+from utilidades.time_tracker import TimeTracker
 
 
-def dfs_search(start_url: str, keyword: str, max_nodes: int = 30, max_depth: int = 3) -> SearchResult:
+def bfs_search(start_url: str, keyword: str, max_nodes: int = 30, max_depth: int = 3) -> SearchResult:
     tracker = TimeTracker()
     tracker.start()
 
-    stack = deque([(start_url, 0)])
+    queue = deque([(start_url, 0)])
     visited = {start_url}
     found = []
     found_set = set()
@@ -16,8 +16,8 @@ def dfs_search(start_url: str, keyword: str, max_nodes: int = 30, max_depth: int
     max_reached_depth = 0
     graph = {}
 
-    while stack and nodes_visited < max_nodes:
-        current_url, depth = stack.pop()
+    while queue and nodes_visited < max_nodes:
+        current_url, depth = queue.popleft()
 
         if depth > max_reached_depth:
             max_reached_depth = depth
@@ -32,13 +32,13 @@ def dfs_search(start_url: str, keyword: str, max_nodes: int = 30, max_depth: int
                 found.append(current_url)
 
         if depth < max_depth:
-            for neighbor in reversed(links):
+            for neighbor in links:
                 if neighbor not in visited and nodes_visited < max_nodes:
                     visited.add(neighbor)
-                    stack.append((neighbor, depth + 1))
+                    queue.append((neighbor, depth + 1))
 
     return SearchResult(
-        algorithm="DFS",
+        algorithm="BFS",
         nodes_visited=nodes_visited,
         max_depth=max_reached_depth,
         results=found,

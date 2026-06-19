@@ -1,8 +1,8 @@
 import heapq
-from crawler.web_scraper import fetch_page
-from utils.metrics import SearchResult
-from utils.heuristics import heuristic
-from utils.time_tracker import TimeTracker
+from rastreador.web_scraper import fetch_page
+from utilidades.metrics import SearchResult
+from utilidades.heuristics import heuristic
+from utilidades.time_tracker import TimeTracker
 
 
 def astar_search(start_url: str, keyword: str, max_nodes: int = 30, max_depth: int = 3) -> SearchResult:

@@ -1,4 +1,4 @@
-from utils.metrics import Metrics
+from utilidades.metrics import Metrics
 
 
 def print_comparison_table(results):
@@ -32,12 +32,11 @@ def build_conclusion(results):
     best_depth = sorted_by_depth[0][0]
 
     conclusion = (
-        f"El algoritmo más rápido fue {best_time}. "
-        f"El que visitó menos nodos fue {best_nodes}. "
-        f"El que alcanzó menor profundidad fue {best_depth}. "
-    )
-    conclusion += (
+        f"-> El algoritmo más rápido fue {best_time}.\n"
+        f"-> El que visitó menos nodos fue {best_nodes}.\n"
+        f"-> El que alcanzó menor profundidad fue {best_depth}.\n"
         "Los resultados se basan en el crawling dinámico de páginas reales, "
         "por lo que los tiempos y profundidades pueden variar según el sitio y la conexión."
     )
+
     return conclusion

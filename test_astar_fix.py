@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Script de pruebas para validar la corrección del algoritmo A*."""
 
-from search_algorithms.bfs import bfs_search
-from search_algorithms.dfs import dfs_search
-from search_algorithms.astar import astar_search
+from algoritmos_busqueda.bfs import bfs_search
+from algoritmos_busqueda.dfs import dfs_search
+from algoritmos_busqueda.astar import astar_search
 
 def test_astar():
     print("=" * 60)
