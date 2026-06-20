@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Explorador de Grafos Web</title>
+    <link rel="stylesheet" href="estilos.css" />
+  </head>
+  <body>
+    <main class="pantalla">
+      <section class="panel superior">
+        <div>
+          <p class="etiqueta">Busqueda web sobre grafos</p>
+          <h1>Explorador de Grafos Web</h1>
+        </div>
+        <form id="formulario" class="controles">
+          <label>
+            URL inicial
+            <input id="urlInicial" name="urlInicial" type="url" value="https://github.com/" required />
+          </label>
+          <label>
+            Palabra clave
+            <input id="palabraClave" name="palabraClave" type="text" value="data" required />
+          </label>
+          <button type="submit">Iniciar recorrido</button>
+        </form>
+      </section>
+
+      <section class="zona-principal">
+        <section class="panel grafo-panel">
+          <div class="barra-grafo">
+            <div>
+              <p class="etiqueta">Grafo generado</p>
+              <h2 id="tituloGrafo">Esperando URL inicial</h2>
+            </div>
+            <div class="leyenda">
+              <span><i class="bfs"></i>BFS</span>
+              <span><i class="dfs"></i>DFS</span>
+              <span><i class="astar"></i>A*</span>
+              <span><i class="relevante"></i>Relevante</span>
+            </div>
+          </div>
+          <canvas id="lienzoGrafo"></canvas>
+        </section>
+
+        <aside class="panel lateral">
+          <p class="etiqueta">Estado</p>
+          <h2 id="estado">Listo para explorar</h2>
+          <div class="metricas">
+            <article>
+              <span>Nodos</span>
+              <strong id="totalNodos">0</strong>
+            </article>
+            <article>
+              <span>Enlaces</span>
+              <strong id="totalEnlaces">0</strong>
+            </article>
+            <article>
+              <span>Algoritmo</span>
+              <strong id="algoritmoActivo">-</strong>
+            </article>
+          </div>
+          <pre id="conclusion">La conclusion aparecera al terminar la busqueda.</pre>
+        </aside>
+      </section>
+
+      <section class="panel tabla-panel">
+        <div class="barra-tabla">
+          <div>
+            <p class="etiqueta">Recorrido nodo por nodo</p>
+            <h2>Tabla en vivo</h2>
+          </div>
+          <div class="acciones-tabla">
+            <button id="pausar" type="button" disabled>Pausar</button>
+            <button id="repetir" type="button" disabled>Repetir animacion</button>
+          </div>
+        </div>
+        <div class="tabla-contenedor">
+          <table>
+            <thead>
+              <tr>
+                <th>Algoritmo</th>
+                <th>Orden</th>
+                <th>Profundidad</th>
+                <th>Resultado</th>
+                <th>URL visitada</th>
+              </tr>
+            </thead>
+            <tbody id="tablaRecorrido"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel resumen-panel">
+        <p class="etiqueta">Comparacion final</p>
+        <div class="tabla-contenedor">
+          <table>
+            <thead>
+              <tr>
+                <th>Algoritmo</th>
+                <th>Nodos visitados</th>
+                <th>Profundidad</th>
+                <th>Tiempo (s)</th>
+                <th>Resultados</th>
+              </tr>
+            </thead>
+            <tbody id="tablaResumen"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <script src="aplicacion.js"></script>
+  </body>
+</html>

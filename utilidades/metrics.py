@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import List
+from typing import Any, Dict, List
 
 
 @dataclass
@@ -9,6 +9,8 @@ class SearchResult:
     max_depth: int
     results: List[str]
     time_elapsed: float
+    graph: Dict[str, List[str]] | None = None
+    traversal: List[Dict[str, Any]] | None = None
 
 
 class Metrics:

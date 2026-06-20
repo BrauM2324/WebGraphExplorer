@@ -10,33 +10,70 @@ def print_comparison_table(results):
 
     for row in rows:
         print(
-            f"{row['algorithm']} | {row['nodes_visited']} | {row['max_depth']} | {row['time_elapsed']:.4f} | {row['results_count']}"
+            f"{row['algorithm']} | {row['nodes_visited']} | {row['max_depth']} | "
+            f"{row['time_elapsed']:.4f} | {row['results_count']}"
         )
 
     print("\nResultados por algoritmo:")
     for name, result in results:
-        print(f"- {name}: {len(result.results)} páginas relevantes encontradas")
+        print(f"- {name}: {len(result.results)} paginas relevantes encontradas")
         if result.results:
             preview = result.results[:3]
             print(f"  Primeros resultados: {', '.join(preview)}")
 
 
+def _format_winners(results, metric, lower_is_better=True, value_getter=None):
+    values = []
+    for name, result in results:
+        value = value_getter(result) if value_getter else getattr(result, metric)
+        values.append((name, value))
+
+    best_value = min(value for _, value in values) if lower_is_better else max(value for _, value in values)
+    winners = [name for name, value in values if value == best_value]
+
+    if len(winners) == 1:
+        return winners[0], best_value, False
+    return ", ".join(winners), best_value, True
+
+
 def build_conclusion(results):
-    sorted_by_time = sorted(results, key=lambda pair: pair[1].time_elapsed)
-    best_time = sorted_by_time[0][0]
-
-    sorted_by_nodes = sorted(results, key=lambda pair: pair[1].nodes_visited)
-    best_nodes = sorted_by_nodes[0][0]
-
-    sorted_by_depth = sorted(results, key=lambda pair: pair[1].max_depth)
-    best_depth = sorted_by_depth[0][0]
-
-    conclusion = (
-        f"-> El algoritmo más rápido fue {best_time}.\n"
-        f"-> El que visitó menos nodos fue {best_nodes}.\n"
-        f"-> El que alcanzó menor profundidad fue {best_depth}.\n"
-        "Los resultados se basan en el crawling dinámico de páginas reales, "
-        "por lo que los tiempos y profundidades pueden variar según el sitio y la conexión."
+    best_time, time_value, tied_time = _format_winners(results, "time_elapsed")
+    best_nodes, nodes_value, tied_nodes = _format_winners(results, "nodes_visited")
+    best_depth, depth_value, tied_depth = _format_winners(results, "max_depth")
+    best_results, results_value, tied_results = _format_winners(
+        results,
+        "results",
+        lower_is_better=False,
+        value_getter=lambda result: len(result.results),
     )
 
-    return conclusion
+    time_line = (
+        f"-> Empataron como mas rapidos: {best_time} ({time_value:.4f} s)."
+        if tied_time
+        else f"-> El algoritmo mas rapido fue {best_time} ({time_value:.4f} s)."
+    )
+    nodes_line = (
+        f"-> Empataron con menos nodos visitados: {best_nodes} ({nodes_value} nodos)."
+        if tied_nodes
+        else f"-> El que visito menos nodos fue {best_nodes} ({nodes_value} nodos)."
+    )
+    depth_line = (
+        f"-> Empataron con menor profundidad alcanzada: {best_depth} (profundidad {depth_value})."
+        if tied_depth
+        else f"-> El que alcanzo menor profundidad fue {best_depth} (profundidad {depth_value})."
+    )
+    results_line = (
+        f"-> Empataron con mas paginas relevantes: {best_results} ({results_value} resultados)."
+        if tied_results
+        else f"-> El que encontro mas paginas relevantes fue {best_results} ({results_value} resultados)."
+    )
+
+    return "\n".join(
+        [
+            time_line,
+            nodes_line,
+            depth_line,
+            results_line,
+            "-> Los resultados pueden variar porque dependen del sitio web, la red y los enlaces disponibles en ese momento.",
+        ]
+    )

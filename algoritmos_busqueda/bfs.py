@@ -15,6 +15,7 @@ def bfs_search(start_url: str, keyword: str, max_nodes: int = 30, max_depth: int
     nodes_visited = 0
     max_reached_depth = 0
     graph = {}
+    traversal = []
 
     while queue and nodes_visited < max_nodes:
         current_url, depth = queue.popleft()
@@ -25,8 +26,19 @@ def bfs_search(start_url: str, keyword: str, max_nodes: int = 30, max_depth: int
         title, content, links = fetch_page(current_url)
         nodes_visited += 1
         graph[current_url] = links
+        traversal.append(
+            {
+                "url": current_url,
+                "depth": depth,
+                "order": nodes_visited,
+                "title": title,
+                "found": keyword.lower() in current_url.lower()
+                or keyword.lower() in title.lower()
+                or keyword.lower() in content.lower(),
+            }
+        )
 
-        if keyword.lower() in current_url.lower() or keyword.lower() in title.lower() or keyword.lower() in content.lower():
+        if traversal[-1]["found"]:
             if current_url not in found_set:
                 found_set.add(current_url)
                 found.append(current_url)
@@ -43,4 +55,6 @@ def bfs_search(start_url: str, keyword: str, max_nodes: int = 30, max_depth: int
         max_depth=max_reached_depth,
         results=found,
         time_elapsed=tracker.end(),
+        graph=graph,
+        traversal=traversal,
     )

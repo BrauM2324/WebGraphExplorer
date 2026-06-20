@@ -16,13 +16,13 @@ def main():
     try:
         base_url, keyword = prompt_user()
 
-        print("\nEjecutando búsqueda BFS...")
+        print("\nEjecutando busqueda BFS...")
         bfs_result = bfs_search(base_url, keyword, max_nodes=30, max_depth=3)
 
-        print("\nEjecutando búsqueda DFS...")
+        print("\nEjecutando busqueda DFS...")
         dfs_result = dfs_search(base_url, keyword, max_nodes=30, max_depth=3)
 
-        print("\nEjecutando búsqueda A*...")
+        print("\nEjecutando busqueda A*...")
         astar_result = astar_search(base_url, keyword, max_nodes=30, max_depth=3)
 
         results = [
@@ -33,7 +33,7 @@ def main():
 
         print_comparison_table(results)
         conclusion = build_conclusion(results)
-        print("\nConclusión:")
+        print("\nConclusion:")
         print(conclusion)
 
     except Exception as exc:
