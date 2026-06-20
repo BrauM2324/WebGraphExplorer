@@ -320,6 +320,8 @@ async function buscar(evento) {
   const payload = {
     url_inicial: document.querySelector("#urlInicial").value,
     palabra_clave: document.querySelector("#palabraClave").value,
+    max_nodos: document.querySelector("#maxNodos").value,
+    max_profundidad: document.querySelector("#maxProfundidad").value,
   };
 
   try {

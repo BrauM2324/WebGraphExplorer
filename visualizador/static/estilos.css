@@ -41,8 +41,8 @@ body {
 
 .superior {
   display: grid;
-  grid-template-columns: minmax(240px, 0.7fr) 1.6fr;
-  gap: 18px;
+  grid-template-columns: 1fr;
+  gap: 20px;
   align-items: end;
   padding: 20px;
 }
@@ -74,8 +74,8 @@ h2 {
 
 .controles {
   display: grid;
-  grid-template-columns: minmax(240px, 1.5fr) minmax(160px, 0.8fr) auto;
-  gap: 10px;
+  grid-template-columns: minmax(190px, 1fr) minmax(140px, 0.7fr) minmax(110px, 0.45fr) minmax(130px, 0.55fr) auto;
+  gap: 14px;
   align-items: end;
 }
 

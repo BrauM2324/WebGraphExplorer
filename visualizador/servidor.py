@@ -41,10 +41,10 @@ def _merge_graph(results):
     return merged
 
 
-def run_search(base_url, keyword):
-    bfs_result = bfs_search(base_url, keyword, max_nodes=MAX_NODOS_INTERNO, max_depth=MAX_PROFUNDIDAD_INTERNA)
-    dfs_result = dfs_search(base_url, keyword, max_nodes=MAX_NODOS_INTERNO, max_depth=MAX_PROFUNDIDAD_INTERNA)
-    astar_result = astar_search(base_url, keyword, max_nodes=MAX_NODOS_INTERNO, max_depth=MAX_PROFUNDIDAD_INTERNA)
+def run_search(base_url, keyword, max_nodes=MAX_NODOS_INTERNO, max_depth=MAX_PROFUNDIDAD_INTERNA):
+    bfs_result = bfs_search(base_url, keyword, max_nodes=max_nodes, max_depth=max_depth)
+    dfs_result = dfs_search(base_url, keyword, max_nodes=max_nodes, max_depth=max_depth)
+    astar_result = astar_search(base_url, keyword, max_nodes=max_nodes, max_depth=max_depth)
 
     results = [
         ("BFS", bfs_result),
@@ -83,12 +83,14 @@ class VisualizadorHandler(SimpleHTTPRequestHandler):
             payload = json.loads(self.rfile.read(content_length).decode("utf-8"))
             base_url = payload.get("url_inicial", "").strip()
             keyword = payload.get("palabra_clave", "").strip()
+            max_nodes = int(payload.get("max_nodos", MAX_NODOS_INTERNO))
+            max_depth = int(payload.get("max_profundidad", MAX_PROFUNDIDAD_INTERNA))
 
             if not base_url or not keyword:
                 self._send_json(400, {"error": "La URL inicial y la palabra clave son obligatorias."})
                 return
 
-            self._send_json(200, run_search(base_url, keyword))
+            self._send_json(200, run_search(base_url, keyword, max_nodes=max_nodes, max_depth=max_depth))
         except Exception as exc:
             self._send_json(500, {"error": f"No se pudo completar la busqueda: {exc}"})
 
