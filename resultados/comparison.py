@@ -74,6 +74,5 @@ def build_conclusion(results):
             nodes_line,
             depth_line,
             results_line,
-            "-> Los resultados pueden variar porque dependen del sitio web, la red y los enlaces disponibles en ese momento.",
-        ]
+             ]
     )
